@@ -6,6 +6,7 @@ import FetchPost from './FetchPost';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 interface State {
   postData: any[];
+  allData: any[];
   hasMore: boolean;
   isLoading: boolean;
 }
@@ -22,6 +23,7 @@ export default class FetchPostController extends Component<Props, State> {
     postData: [],
     hasMore: false,
     isLoading: false,
+    allData: [],
   };
   getData = () => {
     this.setState({isLoading: true});
@@ -36,6 +38,7 @@ export default class FetchPostController extends Component<Props, State> {
         tempData = response.data.hits;
         this.setState({
           postData: this.state.postData.concat(tempData),
+          allData: this.state.postData.concat(tempData),
           isLoading: false,
         });
         currentPage++;
@@ -49,7 +52,7 @@ export default class FetchPostController extends Component<Props, State> {
   };
 
   filterPostData = (text: string) => {
-    const filteredData = this.state.postData?.filter((item: any) => {
+    const filteredData = this.state.allData?.filter((item: any) => {
       if (
         item.title.toLowerCase().includes(text.toLowerCase()) ||
         (item.url !== null &&
